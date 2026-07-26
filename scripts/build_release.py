@@ -57,6 +57,7 @@ RELEASE_META = [
     ("release/NOTICES.md", "NOTICES.md"),
     ("release/README_RELEASE.md", "README.md"),
     ("release/FLAGS.md", "FLAGS.md"),
+    ("release/verify_manifest.py", "verify_manifest.py"),
 ]
 
 # The one notebook we ship gets its outputs/execution counts cleared on copy
@@ -240,16 +241,47 @@ def write_requirements(dest):
                                            encoding="utf-8")
 
 
+GITATTRIBUTES = (
+    "# Publish bytes exactly as committed on every platform, so "
+    "MANIFEST_SHA256.txt\n"
+    "# verifies identically on Windows, macOS and Linux.\n"
+    "* -text\n"
+)
+
+MANIFEST_HEADER = (
+    "# Verify with:  python verify_manifest.py\n"
+    "# Each line is: <sha256>  <path>, over the file's bytes as committed.\n"
+    "# This repo pins `* -text` in .gitattributes so a checkout is "
+    "byte-identical\n"
+    "# on Windows, macOS and Linux and these hashes hold everywhere.\n"
+)
+
+
 def write_manifest(dest):
+    """Hash every published file.
+
+    The marker is a build artifact and is excluded: it is deleted before
+    publishing, and listing it made the shipped manifest fail its own check.
+    `.gitattributes` is written first so the hashes below are the bytes any
+    checkout actually gets — without it, git rewrites text files to CRLF on
+    Windows and the published manifest fails on a fresh clone.
+    """
+    with open(dest / ".gitattributes", "w", encoding="utf-8",
+              newline="\n") as fh:
+        fh.write(GITATTRIBUTES)
+    skip = {"MANIFEST_SHA256.txt", MARKER_NAME}
     entries = []
     for p in dest.rglob("*"):
-        if not p.is_file() or p.name == "MANIFEST_SHA256.txt":
+        if not p.is_file() or p.name in skip:
             continue
         digest = hashlib.sha256(p.read_bytes()).hexdigest()
         entries.append((p.relative_to(dest).as_posix(), digest))
     entries.sort()
-    out = "".join("%s  %s\n" % (digest, rel) for rel, digest in entries)
-    (dest / "MANIFEST_SHA256.txt").write_text(out, encoding="utf-8")
+    out = MANIFEST_HEADER + "".join("%s  %s\n" % (digest, rel)
+                                    for rel, digest in entries)
+    with open(dest / "MANIFEST_SHA256.txt", "w", encoding="utf-8",
+              newline="\n") as fh:
+        fh.write(out)
     return len(entries)
 
 

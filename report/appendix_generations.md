@@ -83,9 +83,13 @@ organizer's provided sample agent — was run directly. Both arms pilot the iden
 same engine binary (post-#1324, `e40e365b`), CRN-paired, n=300 per row; arm A's modules
 are md5-identical to the shipped `submission_v12.tar.gz` and its 46-flag ledger was
 mechanically diffed against the tarball's baked header (46/46 identical). The shipped
-configuration wins by a live-band-weighted **+38.36pp (95% CI [+36.63, +40.10]; 71.9% vs
-28.5% unweighted mean of rows; pooled discordants 3442/188, McNemar p < 1e-300)**, all 25
-rows favouring it, 0 crashes / 0 illegal / 0 timeouts across 15,000 games.
+configuration wins by a live-band-weighted **+38.36pp (95% CI [+36.63, +40.10] for this fixed 25-row
+pool at these weights — between-row spread is far larger, τ ≈ 25pp, so the interval bounds
+sampling error, not pool composition or anything about the ladder; 71.9% vs 28.5%
+unweighted mean of rows)**, all 25 rows favouring it, 0 crashes / 0 illegal / 0 timeouts
+across 15,000 games. The pooled McNemar (3442/188) returns p < 1e-300, which we quote only
+to note that it is a useless number — it tests a null nobody holds; **the load-bearing
+statistic is that all 25 rows point the same way** (sign test p = 6e-8).
 
 Three things bound that number. **The baseline is a random-legal-move agent**, so +38pp
 sizes the distance from the provided starting point, not competitive strength — against
@@ -101,6 +105,8 @@ One-component ablations on the same instrument (Δ = ablated − full final, n=3
 52,500 further games) locate the value bluntly, against an **A/A null control that read
 −0.04pp with 13/20 discordants** in the same batch:
 
+Δ is *ablated minus full*, so a negative number is what removing that piece costs.
+
 | ablated | Δpp | b / c | p |
 |---|---:|---|---:|
 | deck-hook family (`PTCG_DK`) | **−21.84** | 386 / 2340 | <1e-300 |
@@ -112,13 +118,27 @@ One-component ablations on the same instrument (Δ = ablated − full final, n=3
 
 \*fails Bonferroni correction (α=0.0083 across six tests).
 
-Two results here are unflattering and we state them as results. **The entire v12 Lucario
-group is worth +0.03pp — removing it changes nothing** — and on the row it was built for
-it now reads −0.67pp where the v12-era report recorded +2.00pp: the sign flipped. That is
-the fifth instance of this report's thesis, and this time the claim it corrects is our
-own. Separately, **`PTCG_BF` is not measured as negative, it is unmeasurable here**: 68
-discordant games against a 33-game noise floor is an underpowered test, not evidence of
-absence. Full protocol, per-row tables, and build proofs:
+Two results here are unflattering and we state them as results. **Removing the entire v12
+Lucario group reads +0.03pp — so the group's own contribution is −0.03pp, indistinguishable
+from zero**, though with a 95% CI of roughly ±0.9pp "changes nothing" is a bound, not a
+proof of exact zero. On the row it was built for the two eras agree in direction and
+disagree in size: re-oriented so both mean *with-L2 minus without-L2*, the v12 gate read
+**+2.00pp (6 discordant games, p=0.418)** and this ablation reads **+0.67pp (2 discordant
+games, p=0.87)**. Null then, null now; the effect did not reverse, it shrank toward
+nothing.
+
+We spell the orientation out because we got it wrong first. `crn_pool.py` prints its b/c
+columns in opposite senses in those two tables, and an earlier draft of this very section
+subtracted them unconverted and reported "the sign flipped" — manufacturing a reversal
+that does not exist, in a report whose subject is exactly that error. It was caught by an
+independent recomputation, not by us. **The four toggles below are also not equally
+"null."** Only the Lucario group is a *measured* zero (301 discordant games, ~9× the noise
+floor, excluding any effect above ~1pp). `PTCG_MIR` is nominally positive and fails only
+the Bonferroni correction, with its mechanism replicating on the row it targets (mirror
+row −9.33pp, p=0.0072) — "not established at this n" is the honest reading, not "null."
+The tracker hooks cannot exclude −1.35pp, which is 39% of the Budew playbook effect we do
+book. And **`PTCG_BF` is not measured as negative, it is unmeasurable here**: it fires in
+only 68 discordant games against a 33-game floor, silent on 17 of 25 rows. Full protocol, per-row tables, and build proofs:
 `intel/frozen_final_baseline_2026-07-26.md`.
 
 **B.4.2b Earlier head-to-heads (superseded in scope by B.4.2).** Local gauntlet rows vs

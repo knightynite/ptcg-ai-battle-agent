@@ -108,7 +108,7 @@ blanks ex-attack damage) + Mega Kangaskhan ex closer + Dwebble/Shaymin feedstock
 Five readings mistook an aggregate for the causal unit — a build "differing from itself" by 6.0pp across batches; v10's 71.75% on a generic-pilot pool (re-based 60.82%, ~11pp phantom); archetype-keyed mirror reads (true exact-list history 2/7); Alakazam 46.4% read as a leak but par-consistent rating-conditioned (13 obs vs 14.14 expected); the §1 pivot trigger. Re-keying each to the decision unit reversed or
 dissolved it. **[F6.]**
 
-A controlled run against the provided baseline (same deck, CRN, n=300/row) reads **+38.4pp** — that agent moves randomly, so it sizes the starting gap, not strength; ablation puts 56% in one component and four at null, v12's Lucario group included (B.4.2).
+A controlled run against the provided baseline (same deck, CRN, n=300/row) reads **+38.4pp** — that agent moves randomly, so it sizes the starting gap, not strength; ablation puts 57% in one flag family that gates much of the rest, and leaves four toggles unresolved — only v12's Lucario group is a measured zero (B.4.2).
 
 **6.1 Surviving evidence ladder** (levels not comparable across instrument eras):
 
@@ -153,5 +153,5 @@ discounting our own headline. What earned its keep: a behavior-diff that generat
 alongside a real climb, then taught us that off-policy agreement is not a causal win; a deck decided twice against our own conclusion; a paired-RNG harness
 that caught our gate convicting good patches and clearing bad ones. What we could *not* establish, we say
 so: v11 is our best observed draw, not a proven best policy; several offline opponent rows still fail live
-reconciliation. [TODO post-settle: final rating Y (top-N).] Reproducibility: the attached code regenerates every figure; a clean, OSI-licensed release of our own agent/harness/diff code
-accompanies submission — original code only, no engine binaries, competition data, or third-party agents.
+reconciliation. [TODO post-settle: final rating Y (top-N).] Reproducibility: the attached code regenerates every figure; our agent, harness and diff code are MIT-licensed at **github.com/knightynite/ptcg-ai-battle-agent**
+— original code only, no engine binaries, competition data, or third-party agents; every published file is hashed in its MANIFEST.

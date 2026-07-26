@@ -46,6 +46,45 @@ at 53 games (final 705.5; per-game trajectory 697→706→710→705.5 across gam
 the adversarial audit), so v10 and v11 were never cleanly compared live.
 Artifacts: `intel/mirror_alakazam_instrument_2026-07-15.md`, `intel/chassis_bias_2026-07-15.md`.
 
+**Re-tested 2026-07-26, after the engine changed under us — and the withdrawal stands.**
+The competition engine shipped a fix for "a bug that occurred when discarding energy," and
+a later baseline run found this exact mill row had moved **+11.00pp** across that
+transition while 24 of 25 other rows reproduced within ±2.7pp. A mill matchup is precisely
+where energy-discard resolution would bite, so the whole P-MIR measurement was suspect. We
+re-ran the toggle CRN-paired at n=300/row **on both binaries** from one verified codebase:
+**+17.00pp pre-fix, +17.33pp post-fix** (p=8.4e-07 / 5.7e-07). Holding the configuration
+fixed and swapping only the binary changes **1 of 300 games on that row (0 of 300 in the
+control arm; 17 of 3,600 across every row and arm)**, against an A/A null of 2 discordant
+games in 1,800. The sharpest version of that test is the one that settles it: the shipped
+v12 configuration run on both binaries reads 72.33% on each, **0 of 300 games changed**.
+The effect is real and engine-independent; the engine hypothesis is refuted.
+
+The same run **overturned a hypothesis of our own, and found a worse bug than the one we
+went looking for**: the +11.00pp was not the engine. The archived pre-fix arm had been run
+from a build whose `main.py` baked no flag defaults, so `PTCG_MIR` fell back to `"0"` and
+**P-MIR was silently off in an arm we had recorded as having it on** — the same
+unrecorded-build-state failure as A.3 #5, one directory over, caught only because an
+unrelated result looked strange. (Stated as inference, not reading: that runner script is
+not on disk and the logs carry no environment dump, so the flag state is reconstructed
+from artifacts. Two loose ends we are not papering over — the same "nothing baked, nothing
+exported" logic would put `PTCG_BF` and the `PTCG_L2` group off in that arm too, which we
+did not test; and the archived arm still differs from our flag-matched replication in 18
+of 300 games on a row whose A/A floor is 0 of 300, so something beyond that one flag
+differed and we cannot say what. The engine hypothesis is refuted independently of all
+this, by the 0-of-300 config-fixed binary swap above.)
+
+**None of this restores the attribution, and we are not restoring it.** Verifying a
+measurement is not validating a claim. The effect is still confined to the single row that
+fails live reconciliation by ~35pp; the two rows that do reconcile still read +1.00pp
+(p=0.74) and +0.67pp (p=0.84); and the size is configuration-sensitive — the same toggle
+reads **+17.33pp in the v11 configuration the attribution was actually made about and
++9.67pp in v12**, both of which shipped. Those two are not formally distinguishable at
+n=300 (difference 7.7pp, 95% CI [−1.5, +16.8], p≈0.10), so we state it as a caution
+against quoting one number as *the* size, not as a demonstrated version effect. Our
+earlier reporting did not say even that much. Artifact:
+`intel/pmir_engine_recheck_2026-07-26.md` (16,200 games, engine binding proven from
+`/proc/self/maps`, old-binary run reproduces the archived 2026-07-15 logs seed-for-seed).
+
 **"Alakazam is our biggest leak."** v11's 46.4% against Alakazam (52% of the top slice)
 read as a deficit until rating adjustment: opponents averaged **876**, and the fitted
 MLE over those 28 games puts our skill at **854 [746, 962]** — **consistent with par: the
@@ -84,6 +123,15 @@ starmie_blitz undershoots — until reconciled, whatever its archetype.** Artifa
    to the v10 build** and contained none of the patch under test. Toggling the patch
    against it is a **silent no-op**: both arms emit identical outcomes and the ablation
    reports zero, with no error. Now guarded by a hard assertion that fails loudly.
+   **Extended 2026-07-26 — the guard was the wrong shape.** It greps the build for a
+   string from the patch under test, which catches a tree that is *behind* the version
+   being gated but is blind to one that has drifted *ahead*: the same directory now
+   carries four flags added after v11 and still passes. Two distinct failures share this
+   root — a build silently older than claimed (this entry) and a build silently newer
+   (A.2's re-test, where an arm recorded as patch-on had the flag defaulting off). A
+   string check cannot see either reliably. The rule we should have written: **assert
+   build *identity* — hash the tree against a named artifact — and archive an environment
+   dump beside every gate log**, so the arm's flag state is read rather than reconstructed.
 
 ## A.4 The recurring failure mode, stated once
 
