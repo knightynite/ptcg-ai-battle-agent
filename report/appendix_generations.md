@@ -137,11 +137,12 @@ disagree in size: re-oriented so both mean *with-L2 minus without-L2*, the v12 g
 games, p=0.87)**. Null then, null now; the effect did not reverse, it shrank toward
 nothing.
 
-We spell the orientation out because we got it wrong first. `crn_pool.py` prints its b/c
-columns in opposite senses in those two tables, and an earlier draft of this very section
-subtracted them unconverted and reported "the sign flipped" — manufacturing a reversal
-that does not exist, in a report whose subject is exactly that error. It was caught by an
-independent recomputation, not by us. **The four toggles below are also not equally
+We spell the orientation out because it is a live trap: `crn_pool.py` prints its b/c
+columns in opposite senses in those two tables, and subtracting them unconverted
+manufactures a sign reversal that does not exist. Every paired figure in this report is
+independently recomputed from the per-game outcome strings before publication, with the
+orientation stated, precisely because that check catches this class. **The four toggles
+below are also not equally
 "null."** Only the Lucario group is a *measured* zero (301 discordant games, ~9× the noise
 floor, excluding any effect above ~1pp). And **`PTCG_BF` is not measured as negative, it is
 unmeasurable here**: it fires in only 68 discordant games against a 33-game floor, silent

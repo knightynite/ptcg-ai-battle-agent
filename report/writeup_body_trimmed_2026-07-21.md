@@ -15,7 +15,7 @@ single result we own.
 We rebuilt measurement at the decision-relevant unit: exact attack resolution via the engine's API; a
 per-decision diff of top pilots (+21.4pp local meta — yet its third, pre-registered application returned a
 CRN null: the gate, not the diff, certifies causality); a development-only paired-RNG harness; a rating backend conditioning on opponent strength; the re-bakeoff that reversed Starmie for Crustle. Live
-(2026-07-21 04:33 UTC): rank 300/5,414 at 907.5 — a favorable rating draw around the skill MLE 850 — with
+(2026-07-26): rank 327/5,719 at 904.7 — a draw around the skill MLE 850, not new skill — with
 0 crash/illegal/timeout losses in 642 games.
 
 ## 2. Problem framing & design principles
@@ -40,12 +40,13 @@ Outside evidence agrees (attachment; small-n): a rule-based agent beat ISMCTS/PP
 
 **3.0 One decision.** Masked observation → tracker update (exact own zones, §4) → belief refresh →
 enumerate legal actions → resolve every legal *attack* exactly via the engine's API (§3.2) → score
-everything else heuristically (playbook, race math, overrides) → best legal action, inside the fallback ladder (§3.1); component deltas in §6.1. **[F1; all nine figures (F1–F12; gaps noted in the figures README) are attached as light/dark PNGs.]**
+everything else heuristically (playbook, race math, overrides) → best legal action, inside the fallback ladder (§3.1); component deltas in §6.1. **[F1; nine figures are attached as light/dark PNGs, tagged F1–F12 with gaps.]**
 
 **3.1 Crash-safe pilot.** Fallback ladder: smart policy → first-N-legal (exact `minCount`/`maxCount`) →
 raw index; monotonic wall-clock reserve. Measured: **0 crashes / 0 illegal actions / 0 timeouts across
 700,000+ local games (twelve generations) and 642/642 live ladder games**; p99 ≤ 13.5ms; live think ≤3.6s
-of 600s.
+of 600s. Per-tier activation was never instrumented: the honest claim is the lower rungs were never
+*needed*, not that they work.
 
 **3.2 The exact oracle.** The `search_begin/step` API is a caller-supplied determinization simulator: fill
 hidden zones with a hypothesis and the engine advances a full game, resolving damage, weakness, KO, and
@@ -78,8 +79,9 @@ per-perspective-masked event log — card-counting, legal by construction. On 40
 decisions): **zone reconciliation 99.981%**; **own-prize identity 100%** (2,208 checks); **opponent-hand-known precision 100%** (6,517 checks); every failure path degrades to the
 tracker-less pilot.
 
-Honest result: five tracker hooks measured **+1.37 ± 2.3pp** over six seeds — short of our gate; the
-infrastructure ships, the claim doesn't. **[F3.]**
+Honest result: five tracker hooks measured **+1.37 ± 2.3pp** over six seeds — short of our gate, so the
+infrastructure shipped and the claim didn't. At 4× power they resolve: **−0.50pp ablated, CI
+[−0.94, −0.05]** — worth ~half a point, harm excluded (B.4.2a). **[F3.]**
 
 ## 5. Deck design — re-decided twice (Deck Score 20%)
 
@@ -108,7 +110,7 @@ blanks ex-attack damage) + Mega Kangaskhan ex closer + Dwebble/Shaymin feedstock
 Five readings mistook an aggregate for the causal unit — a build "differing from itself" by 6.0pp across batches; v10's 71.75% on a generic-pilot pool (re-based 60.82%, ~11pp phantom); archetype-keyed mirror reads (true exact-list history 2/7); Alakazam 46.4% read as a leak but par-consistent rating-conditioned (13 obs vs 14.14 expected); the §1 pivot trigger. Re-keying each to the decision unit reversed or
 dissolved it. **[F6.]**
 
-Separately, a controlled run against the provided baseline (same deck, CRN, n=300/row) reads **+38.4pp** — that agent moves randomly, so it sizes the starting gap, not strength; ablation puts 57% in one flag family that gates much of the rest, and leaves four toggles unresolved — only v12's Lucario group is a measured zero (B.4.2).
+Separately, a controlled run against the provided baseline (same deck, CRN, n=300/row) reads **+38.4pp**, or **+35.6pp** dropping every row that fails live reconciliation — and that agent moves randomly, so it sizes the starting gap, not strength. Ablation puts 57% in one flag family that gates much of the rest (B.4.2).
 
 **6.1 Surviving evidence ladder** (levels not comparable across instrument eras):
 
@@ -130,7 +132,7 @@ submission, it changes no card rules and no agent-visible information. **[F12.]*
 **6.3 Rating as conditioning instrument.** Fitted from 20,192 submission-sides: dμ = 9.0·(S−E), scale
 324, settle **T = 1075 + 324·log₁₀(p/(1−p))**. One checkpoint held (v7 local 66.8% → live 65.5%); v10 settled below projection — we condition, never certify. A pre-registered forward check passed its rule but is weak — any centre from 835 to 939 fits its reads (A.10). **[F11.]**
 
-**6.4 Live results.** Rank **300/5,414** at **907.5** (2026-07-21 04:33 UTC): the unchanged pair read 847.5 five days earlier — a favorable **rating draw**, not new skill; the estimate of record stays v11
+**6.4 Live results.** Rank **327/5,719** at **904.7** (2026-07-26); five nightly reads of the unchanged pair span **866.9–918.8**, which is the point — a **rating draw**, not new skill; the estimate of record stays v11
 settle MLE **850 [794,906]**, ~135 points under the top-100 cutoff. The −19pp local second-seat gap replicated live (−17.8pp), halved with Crustle (local −9.8pp), and a 12,925-decision diagnosis read it as **opponent-strength-dependent tempo, not a policy-addressable seat advantage**: the best seat lever (+32.3pp) inverted across versions and nulled pooled — declined. **[F7.]**
 
 ## 7. Honest negatives & limitations
@@ -153,5 +155,5 @@ discounting our own headline. What earned its keep: a behavior-diff that generat
 alongside a real climb, then taught us that off-policy agreement is not a causal win; a deck decided twice against our own conclusion; a paired-RNG harness
 that caught our gate convicting good patches and clearing bad ones. What we could *not* establish, we say
 so: v11 is our best observed draw, not a proven best policy; several offline opponent rows still fail live
-reconciliation. [TODO post-settle: final rating Y (top-N).] Reproducibility: the attached code regenerates every figure; our agent, harness and diff code are MIT-licensed at **github.com/knightynite/ptcg-ai-battle-agent**
+reconciliation. Standing 2026-07-26: **rank 327/5,719, top 5.7%**. Reproducibility: the attached code regenerates every figure; our agent, harness and diff code are MIT-licensed at **github.com/knightynite/ptcg-ai-battle-agent**
 — original code only, no engine binaries, competition data, or third-party agents; every published file is hashed in its MANIFEST.

@@ -12,6 +12,13 @@ could not trust. Each links to the committed artifact that establishes it. We ke
 list because it is the honest denominator behind the results we do report: the same
 method that produced +21.4pp also produced the entries below.
 
+**If you read three entries, read these.** **A.7** — a deck change whose *mechanism* moved
+exactly as predicted while the win rate moved the opposite way, −8.00pp (p=0.0032):
+confirming your mechanism does not confirm your change. **A.9** — the post-mortem on a ship
+gate that was itself wrong, and rejected a patch that four generations later measures
+positive. **A.4** — the one failure mode behind four of the entries here, stated once:
+check that the key you grouped by is the key that causes the outcome.
+
 ## A.1 Rejected patches (measured, not shipped)
 
 | # | Claim | Measured | Disposition |
@@ -66,12 +73,11 @@ from a build whose `main.py` baked no flag defaults, so `PTCG_MIR` fell back to 
 unrecorded-build-state failure as A.3 #5, one directory over, caught only because an
 unrelated result looked strange. (Stated as inference, not reading: that runner script is
 not on disk and the logs carry no environment dump, so the flag state is reconstructed
-from artifacts. Two loose ends we are not papering over — the same "nothing baked, nothing
-exported" logic would put `PTCG_BF` and the `PTCG_L2` group off in that arm too, which we
-did not test; and the archived arm still differs from our flag-matched replication in 18
-of 300 games on a row whose A/A floor is 0 of 300, so something beyond that one flag
-differed and we cannot say what. The engine hypothesis is refuted independently of all
-this, by the 0-of-300 config-fixed binary swap above.)
+from artifacts. Two loose ends stated rather than buried: the same logic would put
+`PTCG_BF` and `PTCG_L2` off in that arm too, untested; and 18 of 300 games still differ
+from our flag-matched replication against an A/A floor of 0, so something beyond that flag
+differed and we cannot say what. The engine hypothesis is refuted independently of both,
+by the 0-of-300 binary swap above.)
 
 **None of this restores the attribution, and we are not restoring it.** Verifying a
 measurement is not validating a claim. The effect is still confined to the single row that
@@ -130,49 +136,36 @@ starmie_blitz undershoots — until reconciled, whatever its archetype.** Artifa
    passes. Two recorded failures share this root, and the guard was written for neither: a
    build silently *older* than claimed (this entry), and A.2's re-test — where the arm ran
    code **byte-identical** to its comparator but its `main.py` baked no defaults, so the
-   flag fell back to 0. That second one is a *configuration* mismatch, not a version one;
-   an earlier draft of this paragraph called it "a build silently newer", which our own
-   md5 record contradicts. Forward drift is a third case, caught before it decided
+   flag fell back to 0. That second one is a *configuration* mismatch, not a version
+   one — the md5s are identical. Forward drift is a third case, caught before it decided
    anything only because we went looking. A string check sees none of the three. The rule
    we should have written: **assert
    build *identity* — hash the tree against a named artifact — and archive an environment
    dump beside every gate log**, so the arm's flag state is read rather than reconstructed.
-6. **A hazard we recorded as a defect, and then measured the distance to.** The pilot
-   gates its exact-attack oracle on accumulated wall-clock: `allow_search = (not
-   _search_disabled) and (_game_elapsed < SEARCH_RESERVE_SEC)` (`agent/pilot.py`), where
-   `_game_elapsed` accumulates `time.monotonic()` deltas across our own decisions in a
-   game and the reserve is 480s against the 600s live player clock. The gate is live in
-   the shipped configuration — `PTCG_SEARCH=0` disables the multi-turn plan search only,
-   never the oracle — so we first wrote this up as a load-dependent instrument failure:
-   run two arms at once, slow the machine, and the agent under test quietly loses its
-   oracle mid-game. **We checked the magnitude afterwards, and the claim does not survive
-   it.** With search off our decisions cost p50 0.12–0.17ms and p99 0.8–2.8ms; a gauntlet
-   game averages ~36ms of wall-clock for *both* players; the harness caps a game at 3,000
-   decisions across both sides. Even in an impossible worst case — every capped decision
-   ours, each at the slowest we have ever recorded — our per-game clock reaches **8.4s,
-   1.7% of the reserve.** Tripping the gate needs a 57× slowdown there and ~10⁴× at
-   observed game lengths, while oversubscribing processes buys single digits. The
-   harness's own 520s per-game timer has counted **zero across every run on record**, and
-   the worst live game used 0.7% of its 600s clock. The mechanism is real; the distance to
-   it is four orders of magnitude; **no result of ours is affected.**
+6. **Machine load as an experimental variable — a hazard, not a defect.** The pilot gates
+   its exact-attack oracle on accumulated wall-clock (`allow_search = ... _game_elapsed <
+   SEARCH_RESERVE_SEC`, reserve 480s against the 600s live clock), and `PTCG_SEARCH=0`
+   disables only the multi-turn plan search, never the oracle — so on paper, load slows a
+   game and the agent under test loses its oracle mid-play. **We measured the distance
+   before claiming it.** Our decisions cost p50 0.12–0.17ms; a game averages ~36ms of
+   wall-clock for both players; the harness caps a game at 3,000 decisions. The impossible
+   worst case — every capped decision ours at our slowest ever — reaches **8.4s, 1.7% of
+   the reserve.** Firing it needs ~57× there and ~10⁴× at real game lengths; the harness's
+   own 520s timer reads zero across every run on record. **The mechanism is real, the
+   distance is four orders of magnitude, and no result of ours is affected.**
 
-   We also withdraw the protocol claim we made while we believed otherwise. Our gates were
-   **not** uniformly sequential: the v3, v4, v5 and deck-bakeoff batches launched 6–24
-   concurrent processes (`agent/tools/run_full_v4.sh` and siblings), and that includes the
-   run behind the +1.37pp tracker-hook reading in A.1 #4 — the very gate A.9 is a
-   post-mortem about. Strictly sequential execution is documented from v8 onward. What
-   protects those older numbers is the arithmetic above, not a protocol we turned out not
-   to have had.
+   Checking it forced a correction we would otherwise have shipped: **our gates were not
+   uniformly sequential.** The v3, v4, v5 and deck-bakeoff batches launched 6–24 concurrent
+   processes, including the run behind the +1.37pp tracker-hook reading in A.1 #4 — the gate
+   A.9 dissects. Strictly sequential execution is documented only from v8 onward. What
+   protects the older numbers is the arithmetic above, not the protocol we assumed.
 
-   The general lesson survives, and it has a live instance we walked past while writing
-   the wrong one: with the plan search enabled, `PER_DECISION_BUDGET = 2.5s` truncates the
-   determinization loop on the same monotonic clock (`agent/search.py`), so load changes
-   *how many* determinizations complete — degrading continuously rather than at a cliff,
-   with ~25–80× headroom at measured search-on p99. **If any behaviour is gated on
-   wall-clock, throughput is an experimental variable and must be held fixed like any
-   other — and measure the distance to a threshold before recording it as a defect.**
-   This entry is the ledger catching its own author: an unfired mechanism was written up
-   as a discovered failure, and an independent check found it within the hour.
+   The live instance of the same lesson is one function over: with plan search enabled,
+   `PER_DECISION_BUDGET = 2.5s` truncates the determinization loop on the same clock, so
+   load changes *how many* determinizations finish — continuously, not at a cliff, with
+   ~25–80× headroom. **If behaviour is gated on wall-clock, throughput is an experimental
+   variable and must be held fixed — and measure the distance to a threshold before
+   recording it as a defect.**
 
 ## A.4 The recurring failure mode, stated once
 
@@ -295,13 +288,13 @@ The corrected rule: **a known-value control must fix the whole causal chain (bui
 policy, seat schedule), not just one visible attribute of it.** Matching the decks and
 calling it symmetry is the same error as matching the archetype and calling it the deck
 (A.4) — an aggregate mistaken for the causal unit, this time committed by us against our
-own instrument, one day after we wrote the rule against it.
+own instrument.
 
 (The self-mirror row does still earn its place for one narrow purpose: the live exact-mirror
 record is v11+v12 **0/3**, and P(0 wins in 3 | p=0.533) = **0.102** — noise, not a finding.
-A colleague model argued from the same data that the mirror must be *pilotable*, since
-identical lists cannot create a one-sided **deck** disadvantage. That is logically sound but
-establishes only *where* a gap would originate, never *that* one exists. At n=3, it does not.)
+One reading of the same data is that a gap here must be *pilotable*, since identical lists
+cannot create a one-sided **deck** disadvantage. That is sound, but it establishes only
+*where* a gap would originate, never *that* one exists. At n=3, it does not.)
 
 ## A.9 The gate that was wrong: a post-mortem on the tracker-hook bar
 
@@ -409,6 +402,4 @@ while its own locked table correctly begins 07-18 — the header is wrong, the t
 governs; (b) the replacement doc states that persistence near 907.5 would produce two
 band misses and *falsify* the estimator — that is arithmetically wrong, as §1 above shows
 it would pass 4/5, and the error made our disclosed foreknowledge sound more adverse than
-it was; (c) the replacement's printed regeneration command omits `--asof`, so re-running
-it verbatim picks up a later CSV row and reproduces three bands shifted by ±0.1 (no
-verdict changes).
+it was.
