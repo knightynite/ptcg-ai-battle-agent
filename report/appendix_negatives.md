@@ -126,12 +126,53 @@ starmie_blitz undershoots — until reconciled, whatever its archetype.** Artifa
    **Extended 2026-07-26 — the guard was the wrong shape.** It greps the build for a
    string from the patch under test, which catches a tree that is *behind* the version
    being gated but is blind to one that has drifted *ahead*: the same directory now
-   carries four flags added after v11 and still passes. Two distinct failures share this
-   root — a build silently older than claimed (this entry) and a build silently newer
-   (A.2's re-test, where an arm recorded as patch-on had the flag defaulting off). A
-   string check cannot see either reliably. The rule we should have written: **assert
+   carries **five** post-v11 flags present in no shipped v11 artifact, and the guard still
+   passes. Two recorded failures share this root, and the guard was written for neither: a
+   build silently *older* than claimed (this entry), and A.2's re-test — where the arm ran
+   code **byte-identical** to its comparator but its `main.py` baked no defaults, so the
+   flag fell back to 0. That second one is a *configuration* mismatch, not a version one;
+   an earlier draft of this paragraph called it "a build silently newer", which our own
+   md5 record contradicts. Forward drift is a third case, caught before it decided
+   anything only because we went looking. A string check sees none of the three. The rule
+   we should have written: **assert
    build *identity* — hash the tree against a named artifact — and archive an environment
    dump beside every gate log**, so the arm's flag state is read rather than reconstructed.
+6. **A hazard we recorded as a defect, and then measured the distance to.** The pilot
+   gates its exact-attack oracle on accumulated wall-clock: `allow_search = (not
+   _search_disabled) and (_game_elapsed < SEARCH_RESERVE_SEC)` (`agent/pilot.py`), where
+   `_game_elapsed` accumulates `time.monotonic()` deltas across our own decisions in a
+   game and the reserve is 480s against the 600s live player clock. The gate is live in
+   the shipped configuration — `PTCG_SEARCH=0` disables the multi-turn plan search only,
+   never the oracle — so we first wrote this up as a load-dependent instrument failure:
+   run two arms at once, slow the machine, and the agent under test quietly loses its
+   oracle mid-game. **We checked the magnitude afterwards, and the claim does not survive
+   it.** With search off our decisions cost p50 0.12–0.17ms and p99 0.8–2.8ms; a gauntlet
+   game averages ~36ms of wall-clock for *both* players; the harness caps a game at 3,000
+   decisions across both sides. Even in an impossible worst case — every capped decision
+   ours, each at the slowest we have ever recorded — our per-game clock reaches **8.4s,
+   1.7% of the reserve.** Tripping the gate needs a 57× slowdown there and ~10⁴× at
+   observed game lengths, while oversubscribing processes buys single digits. The
+   harness's own 520s per-game timer has counted **zero across every run on record**, and
+   the worst live game used 0.7% of its 600s clock. The mechanism is real; the distance to
+   it is four orders of magnitude; **no result of ours is affected.**
+
+   We also withdraw the protocol claim we made while we believed otherwise. Our gates were
+   **not** uniformly sequential: the v3, v4, v5 and deck-bakeoff batches launched 6–24
+   concurrent processes (`agent/tools/run_full_v4.sh` and siblings), and that includes the
+   run behind the +1.37pp tracker-hook reading in A.1 #4 — the very gate A.9 is a
+   post-mortem about. Strictly sequential execution is documented from v8 onward. What
+   protects those older numbers is the arithmetic above, not a protocol we turned out not
+   to have had.
+
+   The general lesson survives, and it has a live instance we walked past while writing
+   the wrong one: with the plan search enabled, `PER_DECISION_BUDGET = 2.5s` truncates the
+   determinization loop on the same monotonic clock (`agent/search.py`), so load changes
+   *how many* determinizations complete — degrading continuously rather than at a cliff,
+   with ~25–80× headroom at measured search-on p99. **If any behaviour is gated on
+   wall-clock, throughput is an experimental variable and must be held fixed like any
+   other — and measure the distance to a threshold before recording it as a defect.**
+   This entry is the ledger catching its own author: an unfired mechanism was written up
+   as a discovered failure, and an independent check found it within the hour.
 
 ## A.4 The recurring failure mode, stated once
 

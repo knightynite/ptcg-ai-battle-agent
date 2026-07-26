@@ -74,7 +74,17 @@ play-Pokémon), bugs fixed (`intel/agent_v0_results.md`).
 | measured-negative (P6, P6B, P8, T1, T5N, R2, R4, S1, O1, ED, SBL) | 0 | 0 | 0 | stay off |
 | `PTCG_BF`, `PTCG_MIR` | 0 | 1 | 1 | bench floor; mirror deck-life/closure |
 | `PTCG_L2` + `_KANG/_WALL/_FLOOR/_BOSS` (`_CLOCK`) | 0 | — (pre-L2 code) | 1 (CLOCK 0) | Lucario patches; CLOCK off, measured regression |
-| `PTCG_EXACT_DET` (`search.py:32`), `SUPPLY_RULE`, `DISCIPLINE_RULE` | 1 | pinned 0 | unpinned → 1 | tracker-exact own-zone determinization; mechanism rules |
+| `PTCG_EXACT_DET` (`search.py`), `SUPPLY_RULE`, `DISCIPLINE_RULE` | 1 in today's tree (written 2026-07-16, after both tarballs) | **absent** | **absent** | tree-only; never fielded — see note |
+
+*Note on the last row, corrected 2026-07-26.* It previously read "pinned 0 / unpinned → 1",
+i.e. that the fielded v12 ran tracker-exact own-zone determinization and two mechanism
+rules by default. **It did not.** Both tarballs were built 2026-07-13; those flags were
+written 2026-07-16 and appear **zero times** in either submitted artifact (verified against
+`submission_v11.tar.gz` and `submission_v12.tar.gz`). `build_submission_v11.sh` does pin
+them to 0, but that pin postdates the shipped v11 artifact and has never been built. The
+practical warning is the useful part: **a rebuild from HEAD would enable them by default
+and would not be the agent that was fielded** — which is exactly why the baseline
+experiment below used md5-verified tarball modules rather than the current tree.
 
 **B.4.2 Final agent vs the provided baseline, deck held constant (measured 2026-07-26).**
 The one comparison §6.1's ladder rows cannot support — a controlled contrast against the
@@ -133,13 +143,44 @@ subtracted them unconverted and reported "the sign flipped" — manufacturing a 
 that does not exist, in a report whose subject is exactly that error. It was caught by an
 independent recomputation, not by us. **The four toggles below are also not equally
 "null."** Only the Lucario group is a *measured* zero (301 discordant games, ~9× the noise
-floor, excluding any effect above ~1pp). `PTCG_MIR` is nominally positive and fails only
-the Bonferroni correction, with its mechanism replicating on the row it targets (mirror
-row −9.33pp, p=0.0072) — "not established at this n" is the honest reading, not "null."
-The tracker hooks cannot exclude −1.35pp, which is 39% of the Budew playbook effect we do
-book. And **`PTCG_BF` is not measured as negative, it is unmeasurable here**: it fires in
-only 68 discordant games against a 33-game floor, silent on 17 of 25 rows. Full protocol, per-row tables, and build proofs:
-`intel/frozen_final_baseline_2026-07-26.md`.
+floor, excluding any effect above ~1pp). And **`PTCG_BF` is not measured as negative, it is
+unmeasurable here**: it fires in only 68 discordant games against a 33-game floor, silent
+on 17 of 25 rows — nothing is known about its effect where it does fire.
+
+**B.4.2a The two unresolved toggles, re-run at 4× power (2026-07-26).** Rather than leave
+them "not established at this n", we re-ran both against the full configuration at
+n=1,200/row — 30,000 games per arm, same pool, weights, seeds, engine and orientation
+(Δ = ablated − full, so negative means removing it costs):
+
+| toggle | n=300/row (first run) | n=1,200/row | verdict |
+|---|---|---|---|
+| tracker hooks T2–T5 | −0.59pp, p=0.465, could not exclude −1.35pp | **−0.50pp, 95% CI [−0.94, −0.05]** | resolved: worth ~0.5pp; **harm now excluded** |
+| `PTCG_MIR` | −0.30pp, p=0.025 (failed Bonferroni) | **−0.38pp, 95% CI [−0.55, −0.20], p=3.7e-08** | resolved: real, small, survives any correction |
+| *A/A null control* | *−0.04pp, 33 discordants* | *+0.09pp, 95% CI [−0.01, +0.19]* | *the yardstick: two identical configs, still zero at 4× power* |
+
+The null is what licenses the other two rows. It re-ran at the same n against a
+byte-identical configuration and stayed indistinguishable from zero, and the engagement
+counts separate signal from noise plainly: **141 discordant games for the null against 915
+for `MIR` and 2,026 for the tracker hooks.** Identical builds replay almost identically
+under paired randomness; these toggles genuinely change play.
+
+Both hold across all three seeds independently (tracker −0.26/−0.36/−0.86; MIR
+−0.57/−0.13/−0.42), so neither is one seed's luck. Two honest riders. The tracker-hook
+interval is *nominal* — z≈2.2 — and would not survive Bonferroni across the two toggles
+tested; what it does buy is the exclusion of harm, which the earlier bound could not. And
+the MIR result, though overwhelming pool-wide, is **carried entirely by one row**:
+`mirror_tusk_ee52c8d3` at −13.00pp (p=3.5e-15), with **no other row in the pool moving as
+much as a point**. That is the same structure that made us withdraw the P-MIR attribution
+in the first place (A.2) — the whole effect lives in the row that fails live reconciliation
+by ~35pp, and the rows that *do* reconcile read zero. Four times the power did not change
+the structure; it only measured it precisely. The patch is real and worth about half a
+point locally. It is still not evidence for the live claim we retracted.
+
+A note on what this run did *not* do: the tracker hooks originally missed their +3.0pp ship
+gate (reading +1.37 ± 2.3pp) and shipped anyway as a disclosed non-regressing default
+(A.1 #4, A.9). This measurement says that call was right — but it says so four generations
+and 60,000 games later, which is not a vindication of the decision as made. Full protocol,
+per-row tables, and build proofs: `intel/frozen_final_baseline_2026-07-26.md`.
 
 **B.4.2b Earlier head-to-heads (superseded in scope by B.4.2).** Local gauntlet rows vs
 the public reference agents — not ladder measurements. v12 vs v11, CRN-paired (3 seeds × 100/row):
@@ -155,10 +196,13 @@ statistically the same as our Starmie's 21.3%; vs generalist romanrozen ~61%
 (smart policy → first-N-legal → raw index) were not instrumented. What is measured
 bounds it: **0 crashes / 0 illegal actions / 0 timeouts across 700,000+ local games and
 642/642 live games** (body §3.1); the harnesses count agent exceptions directly (0 in
-the 15,000-game v12 band), so the exception tiers had nothing to catch. The one
-instrumented fallback counter is oracle-internal, not the action ladder:
-`EXACT_DET_DIAG` (`agent/search.py:33`), ~5–7% fail-open in bring-up
-(`intel/exact_det_patch_2026-07-16.md`).
+the 15,000-game v12 band), so the exception tiers had nothing to catch. The nearest thing
+to an instrumented fallback counter is oracle-internal rather than the action ladder —
+`EXACT_DET_DIAG`, ~5–7% fail-open in bring-up
+(`intel/exact_det_patch_2026-07-16.md`) — and it is **tree-only: it appears in neither
+submitted tarball and never ran in a fielded build** (same 2026-07-16 addition as the last
+row of B.4.1). So for the shipped agent the honest statement is that per-tier fallback
+activity was not instrumented at all.
 
 **B.4.4 Provenance matrix.** Cells phrased to the body's own attributions.
 
@@ -167,9 +211,9 @@ instrumented fallback counter is oracle-internal, not the action ladder:
 | exact-oracle determinization | documented Kiyotah recipe | determinization search | exact-resolve integration + failure boundary | §3.2/§3.3 |
 | behavior-diff instrument | public episode dumps (WinDecks #7, Budew #2) | top agents' played decisions | counterfactual replay decomposition + gate discipline | §3.4 |
 | CRN shuffle interposition | PokeForge described the idea | native-shuffle interposition concept | RDRAND/libstdc++ implementation, audit, four changed verdicts; dev-only | §6.2 |
-| deck list | Budew's #2-ranked Crustle / Mega Kangaskhan ex list | 60-card list, unmodified | the re-decision; one measured change (11-Basic fix, −5.5pp) rejected | §5 |
+| deck list | Budew's #2-ranked Crustle / Mega Kangaskhan ex list | 60-card list, unmodified (card-id multiset identical to the observed list) | the re-decision; the one change measured against *this* list — the −4 Spiky / +4 Basic Grass manabase A/B — was rejected at −8.00pp (p=0.0032). The 11-Basic mulligan fix (−5.5pp) was measured on the *previous* Starmie list, before the switch | §5 / A.7 |
 | Lucario patches | independent Codex/GPT-5 root-cause | five-patch spec | CRN gating → best subset; +0.29pp n.s.; 0.4% of field, stopped | B.3 |
-| rating backend + unit audit | fully ours | — | settle model T = 1075 + 324·log₁₀(p/(1−p)), 20,192 submission-sides; five aggregate-vs-unit reversals | §6.3/§6 |
+| rating backend + unit audit | our *fit* of the organizer's published rating system | the Evaluation page's qualitative spec | the fitted constants: settle model T = 1075 + 324·log₁₀(p/(1−p)) over 20,192 submission-sides; and five aggregate-vs-unit readings reversed or dissolved | §6.3/§6 |
 
 *(The body credits Masamikobayashi's public approach for the tracker's own-zone/prize
 inference, §4(b); the behavior-diff method itself is in-house.)*

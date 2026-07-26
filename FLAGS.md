@@ -64,23 +64,35 @@ list, not the shipped one.
 
 Bold = shipped value differs from the code default in this tree.
 
-## Flags in the code but NOT in the baked ledger
+## Flags in THIS TREE but NOT in the shipped build
 
-These exist in the code and were left unset by the v12 build, so the shipped
-behavior is the code default:
+**Corrected 2026-07-26.** An earlier version of this table listed these as "shipped value =
+the code default", implying the fielded agent runs them. It does not: both submission
+tarballs were built 2026-07-13, these flags were written 2026-07-16, and they appear **zero
+times** in either artifact. They exist only in the current source tree.
 
-| flag | code default | v12 shipped | meaning |
+| flag | default in this tree | in the shipped tarballs | meaning |
 |---|---|---|---|
-| PTCG_EXACT_DET | 1 | 1 (unset) | tracker-exact own-zone determinization in `search.py` (relevant only when search runs) |
-| PTCG_SUPPLY_RULE | 1 | 1 (unset) | prize-multiset resource-supply consumer (fail-open on the tracker) |
-| PTCG_DISCIPLINE_RULE | 1 | 1 (unset) | narrow top-pilot discipline rule (fail-open; crustle_wall-gated) |
-| PTCG_SUPPLY_DEBUG | 0 | 0 (unset) | episode-end supply-rule debug dump |
-| PTCG_DISCIPLINE_DEBUG | 0 | 0 (unset) | episode-end discipline-rule debug dump |
+| PTCG_EXACT_DET | 1 | **not present** | tracker-exact own-zone determinization in `search.py` |
+| PTCG_SUPPLY_RULE | 1 | **not present** | prize-multiset resource-supply consumer (fail-open on the tracker) |
+| PTCG_DISCIPLINE_RULE | 1 | **not present** | narrow top-pilot discipline rule (fail-open; crustle_wall-gated) |
+| PTCG_SUPPLY_DEBUG | 0 | **not present** | episode-end supply-rule debug dump |
+| PTCG_DISCIPLINE_DEBUG | 0 | **not present** | episode-end discipline-rule debug dump |
+
+Consequence worth stating plainly: **a rebuild from this tree is not the agent that was
+fielded**, because these default ON. Reproducing the submitted behaviour means building
+from the tarball ledger above, not from HEAD.
 
 ## Search reserve constants (not env flags)
 
-`agent/pilot.py` hard-codes the search clock budget; these are constants, not
-flags, and only matter when `PTCG_SEARCH=1` (v12 ships search OFF):
+`agent/pilot.py` hard-codes the search clock budget. These are constants, not flags, and
+they differ in scope — an earlier version of this file wrongly said both "only matter when
+`PTCG_SEARCH=1`", which contradicts line 18 above and the code:
 
-- `SEARCH_RESERVE_SEC = 480.0` — drop to pure heuristic once the game clock is high
-- `PER_DECISION_BUDGET = 2.5` — hard per-decision search deadline (well under Kaggle's 7.5 s)
+- `SEARCH_RESERVE_SEC = 480.0` — applies **regardless of `PTCG_SEARCH`**. It gates
+  `allow_search`, which controls the exact one-turn attack oracle; `PTCG_SEARCH` gates only
+  the multi-turn plan search one line below it. Measured headroom is ~57× in an impossible
+  worst case and ~10⁴× at observed game lengths, so it has never fired (see the negatives
+  ledger, A.3 #6).
+- `PER_DECISION_BUDGET = 2.5` — hard per-decision search deadline (well under Kaggle's
+  7.5 s); this one does only bind when the plan search is enabled.
