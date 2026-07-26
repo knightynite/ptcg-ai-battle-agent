@@ -9,6 +9,9 @@ import sys
 
 MANIFEST = "MANIFEST_SHA256.txt"
 
+# Build artifacts that never ship, so they are neither hashed nor reported.
+NOT_PUBLISHED = {".release_export_marker"}
+
 
 def main():
     if not os.path.exists(MANIFEST):
@@ -40,7 +43,7 @@ def main():
         dirs[:] = [d for d in dirs if d != ".git"]
         for name in files:
             rel = os.path.relpath(os.path.join(base, name), ".").replace(os.sep, "/")
-            if rel != MANIFEST:
+            if rel != MANIFEST and rel not in NOT_PUBLISHED:
                 on_disk.add(rel)
     unlisted = sorted(on_disk - set(listed))
 
