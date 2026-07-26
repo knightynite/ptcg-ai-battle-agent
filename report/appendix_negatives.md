@@ -395,11 +395,8 @@ Artifacts: `intel/anchor_settle_prereg_2026-07-17.md` (attempt 1),
 and the §5b read ledger), `scripts/anchor_settle.py` (the band formula, unchanged since
 the 07-17 commit).
 
-**Errata in those artifacts, corrected here rather than rewritten there** (a
-pre-registration you edit after the fact is worth nothing, so the originals stand and the
-corrections are additive): (a) the 07-17 header calls that day's snapshot "read #1 of 5"
-while its own locked table correctly begins 07-18 — the header is wrong, the table
-governs; (b) the replacement doc states that persistence near 907.5 would produce two
-band misses and *falsify* the estimator — that is arithmetically wrong, as §1 above shows
-it would pass 4/5, and the error made our disclosed foreknowledge sound more adverse than
-it was.
+**One erratum, corrected here rather than rewritten there** — a pre-registration you edit
+after the fact is worth nothing, so the original stands and the correction is additive:
+the replacement doc claims that persistence near 907.5 would produce two band misses and
+*falsify* the estimator. That is arithmetically wrong — as §1 shows, it would pass 4/5 —
+and it made our disclosed foreknowledge sound more adverse than it was.
