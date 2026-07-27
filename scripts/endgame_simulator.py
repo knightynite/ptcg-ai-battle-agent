@@ -3,7 +3,7 @@
 """
 endgame_simulator.py — committed, seeded, reproducible endgame submission-portfolio simulator.
 
-Fable-synthesis Lever 1 (`intel/fable_synthesis_2026-07-16.md` SS2.1) AND the adversarial audit's
+Synthesis Lever 1 (`intel/fable_synthesis_2026-07-16.md` SS2.1) AND the adversarial audit's
 outstanding demand (`intel/codex_adversarial_audit_2026-07-15.md`: "a saved, reproducible joint
 simulation of (a) current true-skill uncertainty, (b) correlation between our two submissions,
 (c) opponent/threshold drift, (d) the post-deadline run-out"). Ground truth and mechanics are
@@ -37,7 +37,7 @@ MODEL (see intel/endgame_policy_2026-07-16.md SS3 for the full derivation):
   idiosyncratic (rho small / recent) and worthless when it was shared-meta (rho large) or already
   decorrelated by a long remaining runout.
 
-CALIBRATION TARGETS (fable spec, SS3 of the policy doc):
+CALIBRATION TARGETS (synthesis spec, SS3 of the policy doc):
   - identical-agent p5-p95 spread ~ 240 over 36 days -> pins sigma_wander^2 + sigma_noise^2 (=: sigma_total^2)
   - 2-day net drift sd ~ 60 for a converged sub -> pins the split between "slow" and "fast" variance,
     GIVEN a choice of tau (tau itself is swept as an unknown, per the brief).

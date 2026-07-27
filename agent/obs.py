@@ -182,7 +182,7 @@ def opt_type(o):
 def clamp_selection(indices, min_count, max_count, n_options):
     """Return a legal selection list: unique, in-range, length in [minCount,maxCount].
 
-    Codex fix #7 (count normalization): a missing/None maxCount must default to
+    Review fix #7 (count normalization): a missing/None maxCount must default to
     min(n_options, max(minCount, 1)) -- NOT a bare 1 -- so a minCount>1 prompt is
     not silently under-returned (which would be illegal)."""
     min_count = 0 if min_count is None else int(min_count)

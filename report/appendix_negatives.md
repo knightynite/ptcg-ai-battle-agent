@@ -133,12 +133,13 @@ starmie_blitz undershoots — until reconciled, whatever its archetype.** Artifa
    string from the patch under test, which catches a tree that is *behind* the version
    being gated but is blind to one that has drifted *ahead*: the same directory now
    carries **five** post-v11 flags present in no shipped v11 artifact, and the guard still
-   passes. Two recorded failures share this root, and the guard was written for neither: a
-   build silently *older* than claimed (this entry), and A.2's re-test — where the arm ran
-   code **byte-identical** to its comparator but its `main.py` baked no defaults, so the
-   flag fell back to 0. That second one is a *configuration* mismatch, not a version
-   one — the md5s are identical. Forward drift is a third case, caught before it decided
-   anything only because we went looking. A string check sees none of the three. The rule
+   passes. Three failure modes sit under one root, and the guard covers exactly one of
+   them: a build silently *older* than claimed — this entry, and the case the guard was
+   written for, which it does catch; A.2's re-test, where the arm ran code
+   **byte-identical** to its comparator but its `main.py` baked no defaults so the flag
+   fell back to 0 — a *configuration* mismatch, not a version one, invisible to any check
+   on file contents; and forward drift, caught before it decided anything only because we
+   went looking. A string check catches the first and cannot see the other two. The rule
    we should have written: **assert
    build *identity* — hash the tree against a named artifact — and archive an environment
    dump beside every gate log**, so the arm's flag state is read rather than reconstructed.

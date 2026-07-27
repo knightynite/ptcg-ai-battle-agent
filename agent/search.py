@@ -182,7 +182,7 @@ def _greedy_subchoice(observation, my_index):
             if SC.P2:
                 # P2: same shared target score the LIVE pick uses, so the oracle's
                 # simulated Jetting Blow line and the executed one aim at the same
-                # Pokemon (codex review sec.2: oracle/live target inconsistency).
+                # Pokemon (design review sec.2: oracle/live target inconsistency).
                 # v5/R4: the denial bonus needs board context -- build it once so the
                 # simulated and executed snipes still agree.
                 if SC.R4 and tcl is None:
@@ -254,7 +254,7 @@ def resolve_attack(observation, my_deck, attack_option_index, max_steps=16, trac
         prizes_taken = my_prizes_before - my_prizes_after
         def_hp_after, def_serial_after = _active_hp(cur, 1 - yi)
         if SC.P2:
-            # P2 KO-attribution fix (codex review sec.2): the defender is KO'd iff
+            # P2 KO-attribution fix (design review sec.2): the defender is KO'd iff
             # the active slot emptied or now holds a different (promoted) Pokemon.
             # Under the old `prizes_taken > 0` rule a Jetting Blow BENCH KO was
             # mislabeled as an active KO and skewed attack choice.

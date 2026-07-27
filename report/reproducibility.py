@@ -5,7 +5,7 @@
 # oracle (R1/v1) → **behavior-diff playbook (v3, +21.4 pp local meta)** → hidden-state
 # tracker (v4) → race evaluator (v5) → **deck re-decision (v6 Budew Crustle)** →
 # behavior-diff #2 (v7 Budew) → **CRN paired-world gates (v8–v10)** → pool re-audit +
-# mirror fix (v11) → Codex L2 lucario patches (v12). Search layers (R2/R3) built,
+# mirror fix (v11) → L2 lucario patches (v12). Search layers (R2/R3) built,
 # A/B-tested, shipped **gated off** after two clean negatives.
 #
 # This notebook regenerates **every figure** in the Writeup's media gallery from
@@ -218,7 +218,7 @@ ERAS = [  # (era title, subtitle, rows: (label, value text))
     ("Era 3 · re-based honest pool", "generic-pilot rows replaced; ~11pp phantom removed",
      [("v10 true baseline", "60.82%"),
       ("v11 + mirror deck-clock fix", "61.40%  (+0.58pp, 3/3 seed-pairs, p=2e-4)"),
-      ("v12 + Codex L2 lucario", "band +0.29pp (under +2 bar); 2 sig row wins")]),
+      ("v12 + L2 lucario", "band +0.29pp (under +2 bar); 2 sig row wins")]),
 ]
 print("\nERA STRIP (F6 bottom): levels not comparable across eras — no connecting line")
 for ttl, sub, rows in ERAS:

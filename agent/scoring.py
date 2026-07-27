@@ -278,7 +278,7 @@ B2F = _flag("PTCG_B2F")  # v7.1 (2026-07-12, live ep 85544056): B2-class lock-th
                          # reproduces v7 exactly.
 
 # v12 patches (2026-07-14): Lucario/Mega-Kangaskhan matchup L2 patch spec
-# (intel/codex-lucario-research-2026-07-14.md PATCH SPEC #1-#5). Five sub-patches
+# (intel/lucario-root-cause-2026-07-14.md PATCH SPEC #1-#5). Five sub-patches
 # under one master switch; PTCG_L2=0 reproduces v11 exactly regardless of the
 # subflags -- every consumer is gated `L2 and L2_<NAME> and _cw()`, and further on
 # _fighting_threat(tc)/lucario belief where the spec calls for it, so non-Fighting
@@ -894,7 +894,7 @@ def supply_diag_summary():
 def _crustle_accessible_supply(tc):
     """Lever 3 supply counter: 4 - discarded_crustle - prized_crustle. Matches the
     validated pre-check methodology (supply_state_precheck_2026-07-16.md sec.2's
-    `stuck = disc_crustle + prize_crustle`), NOT the fable prose's
+    `stuck = disc_crustle + prize_crustle`), NOT the synthesis prose's
     '- in-play-committed' term -- a Crustle already on the field is still supply in the
     sense this rule cares about (how many more copies remain obtainable), and this keeps
     the live fire-rate measurement comparable to the pre-registered ~30% prediction.
@@ -1194,7 +1194,7 @@ def damage_target_score(card, amount, combo_ok=False, atk_dmg=0, tc=None):
     """Shared opponent-Pokemon damage-target score (P2). Called by BOTH the live pick
     (_score_card_pick DAMAGE*) and the oracle's forced sub-selections
     (search._greedy_subchoice) so the simulated and executed Jetting Blow /
-    Cursed Blast lines aim at the same target (codex review sec.2).
+    Cursed Blast lines aim at the same target (design review sec.2).
     Tiers: exact KO (prize-value tie-break) > chip-into-this-turn-lethal >
     engine/evolving targets > distance-to-kill-penalized rest.
     R4 (v5): while the opponent has NOT yet landed an evolved attacker, add a denial
@@ -1614,7 +1614,7 @@ def _bench_floor(tc):
 
 
 # ============================ v12 L2 lucario-matchup patches ==========================
-# intel/codex-lucario-research-2026-07-14.md PATCH SPEC #1-#5. Every helper here is
+# intel/lucario-root-cause-2026-07-14.md PATCH SPEC #1-#5. Every helper here is
 # read-only over the TurnCtx and exception-proof (safe direction = assume risk / no
 # opinion); every consumer is gated L2-and-subflag-and-_cw(), so PTCG_L2=0 (or all
 # subflags 0) reproduces v11 exactly. Placed after the v7 B-hooks so KANGASKHAN_M,

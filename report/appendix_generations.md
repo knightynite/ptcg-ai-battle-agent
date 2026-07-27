@@ -34,7 +34,7 @@ live ladder, a direct sign of ladder-path variance rather than an L2-cost estima
 
 ## B.3 The Lucario post-mortem (extends Appendix A.5)
 
-v12 implements five patches from an independent Codex/GPT-5 root-cause of 34 live
+v12 implements five patches from an independent root-cause review of 34 live
 Crustle-vs-Lucario losses (Kangaskhan's Fighting weakness feeds Boss gust locks, not attacks
 into the wall — Crustle blocked 95/95 direct Lucario attacks). Generic-pilot rows can't
 measure a strong-pilot gust-sequencing fix, so v12 shipped as the honest live test rather than
@@ -51,12 +51,12 @@ pursued further once that was established.
 | v9 | floor + energy-denial | −0.29pp (noisy) → +0.11pp CRN | HELD, unshipped |
 | v10 | CRN-recovered patches (B2F, B3) | +0.13pp CRN vs v9 (71.62→71.75; 72.0 bar missed by 0.25) | shipped, closest miss |
 | v11 | pool re-audit + mirror fix | rebased-pool estimate 60.82% (not "71.75"); +0.58pp (p=2e-4) | shipped — best observed draw; gain later unattributed |
-| v12 | Codex-derived Lucario patches | +0.29pp (p=0.20, n.s.) | shipped as live test, then stopped — matchup 0.4% of field |
+| v12 | review-derived Lucario patches | +0.29pp (p=0.20, n.s.) | shipped as live test, then stopped — matchup 0.4% of field |
 
 Sources: `intel/agent_v8_results.md`, `intel/agent_v9_results.md`, `intel/agent_v10_results.md`,
 `intel/agent_v11_results.md`, `intel/agent_v12_results.md`, `intel/crn_reaudit_2026-07-13.md`,
 `intel/mirror_alakazam_instrument_2026-07-15.md`, `intel/chassis_bias_2026-07-15.md`,
-`intel/codex-lucario-research-2026-07-14.md`, `intel/lever_redirect_2026-07-15.md`.
+`intel/lucario-root-cause-2026-07-14.md`, `intel/lever_redirect_2026-07-15.md`.
 
 ## B.4 Frozen shipped configuration, baseline head-to-heads, fallback activity, and provenance
 
@@ -213,7 +213,7 @@ activity was not instrumented at all.
 | behavior-diff instrument | public episode dumps (WinDecks #7, Budew #2) | top agents' played decisions | counterfactual replay decomposition + gate discipline | §3.4 |
 | CRN shuffle interposition | PokeForge described the idea | native-shuffle interposition concept | RDRAND/libstdc++ implementation, audit, four changed verdicts; dev-only | §6.2 |
 | deck list | Budew's #2-ranked Crustle / Mega Kangaskhan ex list | 60-card list, unmodified (card-id multiset identical to the observed list) | the re-decision; the one change measured against *this* list — the −4 Spiky / +4 Basic Grass manabase A/B — was rejected at −8.00pp (p=0.0032). The 11-Basic mulligan fix (−5.5pp) was measured on the *previous* Starmie list, before the switch | §5 / A.7 |
-| Lucario patches | independent Codex/GPT-5 root-cause | five-patch spec | CRN gating → best subset; +0.29pp n.s.; 0.4% of field, stopped | B.3 |
+| Lucario patches | independent root-cause review | five-patch spec | CRN gating → best subset; +0.29pp n.s.; 0.4% of field, stopped | B.3 |
 | rating backend + unit audit | our *fit* of the organizer's published rating system | the Evaluation page's qualitative spec | the fitted constants: settle model T = 1075 + 324·log₁₀(p/(1−p)) over 20,192 submission-sides; and five aggregate-vs-unit readings reversed or dissolved | §6.3/§6 |
 
 *(The body credits Masamikobayashi's public approach for the tracker's own-zone/prize

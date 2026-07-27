@@ -6,7 +6,7 @@ pattern (the engine re-presents MAIN after each sub-action), but at a consequent
 "crux" we run search.plan_decision -- a multi-turn determinization-ensemble over candidate
 turn plans -- and override the greedy pick only when a plan is strictly better.
 
-The six Codex v0.1 crash-safety fixes are folded in here:
+The six v0.1 crash-safety review fixes are folded in here:
   #1 monotonic per-decision deadline threaded into the search (this is R2's budget hook);
   #2 elapsed time charged in a `finally` so exceptions still bank the clock;
   #3 the oracle/search runs only when it can change the choice (crux gate);
