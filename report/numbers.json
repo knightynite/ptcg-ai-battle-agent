@@ -16,7 +16,7 @@
       "snapshot_utc": "2026:07:21T043848",
       "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-21T043848.csv",
       "method": "Score of our row, same identification as our_rank.",
-      "note": "Same value as our_latest_snapshot_rating (kept as a separate entry below per fable_synthesis_2026-07-16.md anchor-ambiguity discussion, §2.2 of intel/endgame_policy_2026-07-16.md). Derivable."
+      "note": "Same value as our_latest_snapshot_rating (kept as a separate entry below per deep_synthesis_2026-07-16.md anchor-ambiguity discussion, §2.2 of intel/endgame_policy_2026-07-16.md). Derivable."
     },
     "n_teams": {
       "value": 5414,
@@ -69,7 +69,7 @@
       "snapshot_utc": "2026-07-15T23:10:00Z",
       "source_file": "intel/nightly_2026-07-15.md",
       "method": "MLE settle fit over v11's n=101 live W-L record (sub id 54668059), per-version live table, 'through 23:10 UTC' cutoff stated in the doc.",
-      "note": "Canonical value, NOT recomputed here (task instruction: record, don't re-derive). Superseded/stale variants found: fable_synthesis_2026-07-16.md §4 item 4 cites '866 [800,932] (draft)' as a stale figure that once appeared in report/strategy_report_draft.md -- that exact string is no longer present in the current draft (grep negative as of this snapshot), so it appears already corrected there; codex_adversarial_audit_2026-07-15.md line 275 quotes 850 [794, 907] (upper bound off by 1 from a rounding variant) -- same estimate, immaterial discrepancy, noted for completeness."
+      "note": "Canonical value, NOT recomputed here (task instruction: record, don't re-derive). Superseded/stale variants found: deep_synthesis_2026-07-16.md §4 item 4 cites '866 [800,932] (draft)' as a stale figure that once appeared in report/strategy_report_draft.md -- that exact string is no longer present in the current draft (grep negative as of this snapshot), so it appears already corrected there; adversarial_audit_2026-07-15.md line 275 quotes 850 [794, 907] (upper bound off by 1 from a rounding variant) -- same estimate, immaterial discrepancy, noted for completeness."
     },
     "v11_g100_rating": {
       "value": 838,
@@ -92,8 +92,8 @@
       "unit": "rating",
       "snapshot_utc": "2026-07-15T23:10:00Z",
       "source_file": "intel/nightly_2026-07-15.md",
-      "method": "PRE-COMMITTED per fable_synthesis_2026-07-16.md §4 item 5 (\"Optional stopping on ladder reads\" / \"Pre-commit the anchor\"): anchor = MLE settle of the active best submission, computed 2026-07-15, n=101; re-computed only at pre-scheduled reads (nightly), never cherry-picked per paragraph.",
-      "note": "This is the single number the rest of the campaign's bronze-probability prose should cite instead of switching between 838/847.5/850/858 per paragraph (fable_synthesis §4 item 5, the exact bias flagged for the Aug 15-16 reroll decisions). ESTIMATOR OF RECORD (2026-07-17): intel/anchor_settle_prereg_2026-07-17.md pre-registers the formal base_settle definition (opponent-rating-adjusted MLE over the current active submission's trailing-14-day window, scripts/anchor_settle.py, reusing this same MLE machinery verbatim) plus a pre-committed 5-read prospective validation band (first read 2026-07-18T01:52Z) and an offline legacy-anchor reproduction check -- 838/847.5/850 reproduce exactly from committed data, 858 does NOT reproduce as an MLE value (it is v11's opponent mean rating, mislabeled in endgame_policy_2026-07-16.md §2.2/§4; see that doc's §5). This value (850) is unchanged and stays anchor_of_record until a scheduled read updates it per the pre-reg's read schedule -- cite the pre-reg doc for the estimator definition and validation status, not this note alone."
+      "method": "PRE-COMMITTED per deep_synthesis_2026-07-16.md §4 item 5 (\"Optional stopping on ladder reads\" / \"Pre-commit the anchor\"): anchor = MLE settle of the active best submission, computed 2026-07-15, n=101; re-computed only at pre-scheduled reads (nightly), never cherry-picked per paragraph.",
+      "note": "This is the single number the rest of the campaign's bronze-probability prose should cite instead of switching between 838/847.5/850/858 per paragraph (deep_synthesis §4 item 5, the exact bias flagged for the Aug 15-16 reroll decisions). ESTIMATOR OF RECORD (2026-07-17): intel/anchor_settle_prereg_2026-07-17.md pre-registers the formal base_settle definition (opponent-rating-adjusted MLE over the current active submission's trailing-14-day window, scripts/anchor_settle.py, reusing this same MLE machinery verbatim) plus a pre-committed 5-read prospective validation band (first read 2026-07-18T01:52Z) and an offline legacy-anchor reproduction check -- 838/847.5/850 reproduce exactly from committed data, 858 does NOT reproduce as an MLE value (it is v11's opponent mean rating, mislabeled in endgame_policy_2026-07-16.md §2.2/§4; see that doc's §5). This value (850) is unchanged and stays anchor_of_record until a scheduled read updates it per the pre-reg's read schedule -- cite the pre-reg doc for the estimator definition and validation status, not this note alone."
     },
     "read_schedule_endgame": {
       "value": "Lock the best-validated submission pair Aug 13-14, >=12h apart (static pair-lock); Aug 15-16 is emergency-revert budget only -- no scheduled conditional reroll (falsifier triggered per intel/endgame_policy_2026-07-16.md §6.1: simulated adaptive-reroll gain +0.68 to +1.91 pts under conservative correlation, below the +3pt bar). Decisions on those days are limited to independent-evidence emergencies (crash, illegal-move regression, catastrophic unrelated loss streak), not a scheduled rating read.",
@@ -125,8 +125,8 @@
       "unit": "percent (weighted offline win-rate band score)",
       "snapshot_utc": "2026-07-15T00:00:00Z",
       "source_file": "intel/agent_v11_results.md",
-      "method": "HONEST-POOL WEIGHTED WR for v11, 25-row fixed proxy band, 300 games/row (intel/codex_adversarial_audit_2026-07-15.md line 324).",
-      "note": "LABEL REQUIRED: frozen-roster regression index, NOT a live win-rate estimate. intel/bronze_reframe_2026-07-15.md line 12 and intel/codex_adversarial_audit_2026-07-15.md (multiple lines, e.g. 37/368/403) explicitly withdraw any live-rate reading of this number -- live reconciliation reads ~51.1-54.6% depending on Alakazam weighting (audit lines 366-371). fable_synthesis_2026-07-16.md §4 item 5 flags this number still appearing in planning prose 'as if it were a live rate' as a live open risk."
+      "method": "HONEST-POOL WEIGHTED WR for v11, 25-row fixed proxy band, 300 games/row (intel/adversarial_audit_2026-07-15.md line 324).",
+      "note": "LABEL REQUIRED: frozen-roster regression index, NOT a live win-rate estimate. intel/bronze_reframe_2026-07-15.md line 12 and intel/adversarial_audit_2026-07-15.md (multiple lines, e.g. 37/368/403) explicitly withdraw any live-rate reading of this number -- live reconciliation reads ~51.1-54.6% depending on Alakazam weighting (audit lines 366-371). deep_synthesis_2026-07-16.md §4 item 5 flags this number still appearing in planning prose 'as if it were a live rate' as a live open risk."
     },
     "crn_vrf_range": {
       "value": "16-44x typical near-clone, low case 2.2x",
@@ -140,9 +140,9 @@
       "value": "~12pp excess on ~40% exposure",
       "unit": "percentage points (win-rate gap, composition- and field-baseline-corrected)",
       "snapshot_utc": "2026-07-16T00:00:00Z",
-      "source_file": "intel/fable_synthesis_2026-07-16.md",
+      "source_file": "intel/deep_synthesis_2026-07-16.md",
       "method": "Raw pooled first/second-seat gap 31pp -> composition-corrected ~20pp (Archaludon all-first 17-3 removed, per v8's finding the pooled gap was 'largely COMPOSITION') -> minus the field-wide first-seat edge of +7.7pp (intel/rating_system_model.md) -> excess ~12pp, on the ~40% of games where seat assignment is exposed to this effect.",
-      "note": "Location note: the task brief cited this as fable_synthesis '§5.4'; the document's actual section numbering has no §5.4 -- this is item 4 of the numbered list under '## 5. Contradictions in the record that matter' (line ~322-327). Recorded from that location. bronze_reframe_2026-07-15.md's headline framing of the raw 31pp gap is the stale/superseded variant -- see fable_synthesis §5 item 4 for the correction chain."
+      "note": "Location note: the task brief cited this as deep_synthesis '§5.4'; the document's actual section numbering has no §5.4 -- this is item 4 of the numbered list under '## 5. Contradictions in the record that matter' (line ~322-327). Recorded from that location. bronze_reframe_2026-07-15.md's headline framing of the raw 31pp gap is the stale/superseded variant -- see deep_synthesis §5 item 4 for the correction chain."
     },
     "field_median_think_time": {
       "value": 3.2,
@@ -151,7 +151,7 @@
       "snapshot_utc": "2026-07-16T00:00:00Z",
       "source_file": "intel/execution_forensics_2026-07-16.md",
       "method": "field median of team-median game total think time, decisions-only metric (excludes boot time), team-clustered (one observation per team, not per player-game) to avoid overweighting high-volume teams; n=137 teams.",
-      "note": "Supersedes the stale '5.8s field median' figure (that pooled-player-game metric does not reproduce on 07-13..15 data and is confounded by boot time + high-volume-team overweighting, per the same doc). fable_synthesis_2026-07-16.md line 117 should be updated from '5.8s' to '3.2s team-clustered' per intel/execution_forensics_2026-07-16.md line 264's own note; not edited here per the 'light touch' instruction for intel docs (pointer line added instead)."
+      "note": "Supersedes the stale '5.8s field median' figure (that pooled-player-game metric does not reproduce on 07-13..15 data and is confounded by boot time + high-volume-team overweighting, per the same doc). deep_synthesis_2026-07-16.md line 117 should be updated from '5.8s' to '3.2s team-clustered' per intel/execution_forensics_2026-07-16.md line 264's own note; not edited here per the 'light touch' instruction for intel docs (pointer line added instead)."
     }
   }
 }

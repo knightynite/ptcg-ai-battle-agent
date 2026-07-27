@@ -15,7 +15,7 @@ single result we own.
 We rebuilt measurement at the decision-relevant unit: exact attack resolution via the engine's API; a
 per-decision diff of top pilots (+21.4pp local meta — yet its third, pre-registered application returned a
 CRN null: the gate, not the diff, certifies causality); a development-only paired-RNG harness; a rating backend conditioning on opponent strength; the re-bakeoff that reversed Starmie for Crustle. Live, on a
-submission frozen since 14 July: six nightly reads span 866.9–918.8 — a draw
+submission frozen since 14 July: five nightly reads span 866.9–918.8 — a draw
 around the skill MLE 850, not new skill — with 0 crash/illegal/timeout losses in 642 games.
 
 ## 2. Problem framing & design principles
@@ -40,7 +40,7 @@ Outside evidence agrees (attachment; small-n): a rule-based agent beat ISMCTS/PP
 
 **3.0 One decision.** Masked observation → tracker update (exact own zones, §4) → belief refresh →
 enumerate legal actions → resolve every legal *attack* exactly via the engine's API (§3.2) → score
-everything else heuristically (playbook, race math, overrides) → best legal action, inside the fallback ladder (§3.1); component deltas in §6.1. **[F1; nine figures are attached as light/dark PNGs, tagged F1–F12 with gaps.]**
+everything else heuristically (playbook, race math, overrides) → best legal action, inside the fallback ladder (§3.1); component deltas in §6.1. **[F1; nine figures, light/dark, F1–F12 with gaps; READ_ME_FIRST is the glossary.]**
 
 **3.1 Crash-safe pilot.** Fallback ladder: smart policy → first-N-legal (exact `minCount`/`maxCount`) →
 raw index; monotonic wall-clock reserve. Measured: **0 crashes / 0 illegal actions / 0 timeouts across
@@ -133,12 +133,12 @@ submission, it changes no card rules and no agent-visible information. **[F12.]*
 **6.3 Rating as conditioning instrument.** Fitted from 20,192 submission-sides: dμ = 9.0·(S−E), scale
 324, settle **T = 1075 + 324·log₁₀(p/(1−p))**. One checkpoint held (v7 local 66.8% → live 65.5%); v10 settled below projection — we condition, never certify. A pre-registered forward check passed its rule but is weak — any centre from 835 to 939 fits its reads (A.10). **[F11.]**
 
-**6.4 Live results.** Six nightly reads of the unchanged pair span **866.9–918.8** (rank **278–460**, latest **416/5,774**) — a **rating draw**, not new skill; the estimate of record stays v11
+**6.4 Live results.** Five consecutive nightly reads of the unchanged pair span **866.9–918.8** (rank **278–460**, latest **416/5,774**) — a **rating draw**, not new skill; the estimate of record stays v11
 settle MLE **850 [794,906]**, ~150 points under the top-100 cutoff. The −19pp local second-seat gap replicated live (−17.8pp), halved with Crustle (local −9.8pp), and a 12,925-decision diagnosis read it as **opponent-strength-dependent tempo, not a policy-addressable seat advantage**: the best seat lever (+32.3pp) inverted across versions and nulled pooled — declined. **[F7.]**
 
 ## 7. Honest negatives & limitations
 
-**[Appendix A: the full negatives ledger.]** Six measured patches were rejected (turn-line search −2.5pp, mulligan fix −5.5pp, four seat recipes); two confirmed *harmful* stay off; four tracker hooks read below gate yet ship as disclosed defaults (the gate, not
+**[Appendix A: the full negatives ledger.]** Rejected patches include turn-line search −2.5pp, mulligan fix −5.5pp and four seat recipes; two confirmed *harmful* stay off; four tracker hooks read below gate yet ship as disclosed defaults (the gate, not
 the patch, was the error). We withdrew three internal claims — including our headline: v11's mirror fix
 (+16.7pp, p≈2e-7) was credited with the live climb, but its whole gain sits in the one row that overshoots
 live by ~35pp; the reconciling rows read ~0. **v11 is our best observed leaderboard draw, not a proven
@@ -156,5 +156,5 @@ discounting our own headline. What earned its keep: a behavior-diff that generat
 alongside a real climb, then taught us that off-policy agreement is not a causal win; a deck decided twice against our own conclusion; a paired-RNG harness
 that caught our gate convicting good patches and clearing bad ones. What we could *not* establish, we say
 so: v11 is our best observed draw, not a proven best policy; several offline opponent rows still fail live
-reconciliation. Standing: **top 4.9–8.2% across six nightly reads**. Reproducibility: the attached code regenerates every figure; our agent, harness and diff code are MIT-licensed at **github.com/knightynite/ptcg-ai-battle-agent**
+reconciliation. Standing: **top 4.9–8.2% across five nightly reads**. Reproducibility: the attached code regenerates every figure; our agent, harness and diff code are MIT-licensed at **github.com/knightynite/ptcg-ai-battle-agent**
 — original code only, no engine binaries, competition data, or third-party agents; every published file is hashed in its MANIFEST.

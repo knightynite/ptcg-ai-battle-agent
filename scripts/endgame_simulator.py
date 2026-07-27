@@ -3,8 +3,8 @@
 """
 endgame_simulator.py — committed, seeded, reproducible endgame submission-portfolio simulator.
 
-Synthesis Lever 1 (`intel/fable_synthesis_2026-07-16.md` SS2.1) AND the adversarial audit's
-outstanding demand (`intel/codex_adversarial_audit_2026-07-15.md`: "a saved, reproducible joint
+Synthesis Lever 1 (`intel/deep_synthesis_2026-07-16.md` SS2.1) AND the adversarial audit's
+outstanding demand (`intel/adversarial_audit_2026-07-15.md`: "a saved, reproducible joint
 simulation of (a) current true-skill uncertainty, (b) correlation between our two submissions,
 (c) opponent/threshold drift, (d) the post-deadline run-out"). Ground truth and mechanics are
 documented in `intel/endgame_policy_2026-07-16.md` SS1-2; read that first.

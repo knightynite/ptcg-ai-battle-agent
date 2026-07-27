@@ -126,7 +126,7 @@ B6 = _flag("PTCG_B6")   # supporter engine: Xerosic priority over early-Hilda
                         # window widened to hand<=7 (69% usage there), Hilda as
                         # the ~T9 wall/energy refetch, Trimmer at opp hand >=6
 
-# Lever 3 (intel/fable_synthesis_2026-07-16.md sec.2.3, pre-registered in
+# Lever 3 (intel/deep_synthesis_2026-07-16.md sec.2.3, pre-registered in
 # intel/supply_rule_2026-07-16.md): prize-multiset resource-supply consumer. Fail-open
 # tracker read -> inert (byte-identical to PTCG_SUPPLY_RULE=0) when the tracker is off
 # or prize identity hasn't converged. Default ON in the patched build so the CRN A/B is
@@ -134,7 +134,7 @@ B6 = _flag("PTCG_B6")   # supporter engine: Xerosic priority over early-Hilda
 SUPPLY_RULE = _flag("PTCG_SUPPLY_RULE")
 
 # Discipline rule (intel/discipline_rule_2026-07-16.md, step 3 of the settlement test in
-# intel/codex_top_pilot_reverse_2026-07-15.md): the ONE narrow rule licensed by steps 1-2
+# intel/top_pilot_reverse_2026-07-15.md): the ONE narrow rule licensed by steps 1-2
 # reproducing on a second, independent top-slice pilot (all four over-PLAY/under-ATTACH/
 # EVOLVE/END signs held at 20-500x the native-RNG noise floor). Fail-open (tracker/DK/_cw
 # gated) -> byte-identical to PTCG_DISCIPLINE_RULE=0 when off, the deck isn't crustle_wall,

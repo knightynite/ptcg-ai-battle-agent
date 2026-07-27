@@ -14,7 +14,7 @@
 # auditable, not decorative.
 #
 # Gallery (rebuilt 2026-07-21 per the adversarial judge review,
-# `intel/codex_report_review_2026-07-15.md`):
+# `intel/report_review_2026-07-15.md`):
 # * **F1** architecture (v1–v12 layer stack, safety ledger)
 # * **F3** belief classification + tracker precision (unchanged — still accurate)
 # * **F4** current Crustle role table (single deck — the portfolio is generations now)
@@ -38,7 +38,7 @@
 # `lb_history/{cutoffs_history,our_rating_history}.csv`, `agent/deck_crustle.csv`,
 # `report/numbers.json`.
 #
-# Design system: the `dataviz` skill's validated reference palette (categorical hues
+# Design system: the `dataviz` validated reference palette (categorical hues
 # pass the CVD/contrast validator in light **and** dark; ordering is the CVD-safety
 # mechanism). Each figure is rendered on a **light and a dark** surface. **No Pokémon
 # card artwork/scans** anywhere — text/schematic only (license rule).
@@ -1509,7 +1509,7 @@ else:
 # %% [markdown]
 # ## Manifest — every generated PNG
 #
-# Confirms all figures (F1–F11 + bonus) were regenerated from committed data.
+# Confirms every figure in the gallery was regenerated from committed data.
 
 # %%
 pngs = sorted(f for f in os.listdir(FIGDIR) if f.endswith(".png"))

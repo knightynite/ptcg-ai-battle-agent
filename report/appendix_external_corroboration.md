@@ -1,8 +1,9 @@
 # Appendix C — External corroboration survey
 
 *Attachment to the Strategy Writeup. Backs the single sentence in body §2: "Outside evidence
-agrees: tuned rule-based agents beat ISMCTS/PPO in card games, recent Kaggle sim winners
-abandoned pure RL, and simple consistent decks out-ladder combo under bot piloting."
+agrees (attachment; small-n): a rule-based agent beat ISMCTS/PPO in one card-game study,
+recent Kaggle sim leaders shipped rules-based bots, and one simple consistent deck
+out-laddered combo under bot piloting."
 References to `intel/…`, `scripts/…`, and `agent/…` paths are internal campaign
 artifacts: they ship in the released code repository accompanying this writeup, not as
 separate attachments.*

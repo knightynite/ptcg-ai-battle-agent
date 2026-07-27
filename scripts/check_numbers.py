@@ -46,12 +46,12 @@ DERIVABLE = {
 HAND_CURATED_NOTE = {
     'v11_mle_settle': 'intel/nightly_2026-07-15.md (MLE fit, n=101) -- not re-derivable from lb_history alone',
     'v11_g100_rating': 'intel/nightly_2026-07-15.md (in-game trajectory anchor)',
-    'anchor_of_record': 'pre-committed per fable_synthesis_2026-07-16.md §4 item 5 -- re-set only at pre-scheduled reads, never by this script',
+    'anchor_of_record': 'pre-committed per deep_synthesis_2026-07-16.md §4 item 5 -- re-set only at pre-scheduled reads, never by this script',
     'read_schedule_endgame': 'intel/endgame_policy_2026-07-16.md §6.1 -- static plan text',
     'p_bronze_static': 'intel/endgame_policy_2026-07-16.md §6.3 -- Monte-Carlo simulator output',
     'band_v11': 'intel/agent_v11_results.md -- frozen-roster regression index',
     'crn_vrf_range': 'intel/crn_reaudit_2026-07-13.md -- CRN re-audit VRF figures',
-    'seat_gap_corrected': 'intel/fable_synthesis_2026-07-16.md §5 item 4 -- composition-corrected seat gap',
+    'seat_gap_corrected': 'intel/deep_synthesis_2026-07-16.md §5 item 4 -- composition-corrected seat gap',
     'field_median_think_time': 'intel/execution_forensics_2026-07-16.md -- replay-forensics measurement',
 }
 

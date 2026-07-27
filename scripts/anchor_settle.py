@@ -239,7 +239,7 @@ def reproduce_legacy_anchors(games, rating_history):
 
     # --- 850 = MLE settle, v11, full valid record (both the 101-game all-valid set and
     # the 100-game set excluding the one default-win-against-INVALID-opponent row, per
-    # codex_adversarial_audit_2026-07-15.md's "one v11 default win against an invalid
+    # adversarial_audit_2026-07-15.md's "one v11 default win against an invalid
     # opponent is excluded above").
     v11_all_pairs = [(r["opp_rating"], r["result"] == "W") for r in v11 if r["result"] in ("W", "L")]
     T_101, lo_101, hi_101 = mle(v11_all_pairs)
@@ -263,7 +263,7 @@ def reproduce_legacy_anchors(games, rating_history):
     # independent MLE point estimate alongside 838 and 850. It does not reproduce as an
     # MLE settle value under any subset tested above (both give T=850). It DOES
     # reproduce exactly as the OPPONENT MEAN rating of v11's 100-game
-    # excl.-invalid-opponent set (codex_adversarial_audit_2026-07-15.md's table column
+    # excl.-invalid-opponent set (adversarial_audit_2026-07-15.md's table column
     # "opponent mean rating" = 858 on the same 48-52 W-L row) -- a different quantity
     # entirely, conflated with a settle estimate downstream. FLAGGED.
     out["anchor_858"] = {
@@ -273,7 +273,7 @@ def reproduce_legacy_anchors(games, rating_history):
         "reproduces_as_opponent_mean": (opp_mean_100 is not None and round(opp_mean_100, 1) == 858.1),
         "opponent_mean_recomputed": round(opp_mean_100, 1) if opp_mean_100 is not None else None,
         "verdict": "PROVENANCE FAILS as claimed. 858 is v11's OPPONENT MEAN rating over the "
-                   "100-game excl.-invalid subset (codex_adversarial_audit_2026-07-15.md table, "
+                   "100-game excl.-invalid subset (adversarial_audit_2026-07-15.md table, "
                    "column 'opponent mean rating'), not a second MLE settle point estimate. "
                    "endgame_policy_2026-07-16.md mislabels/conflates it as 'mild-optimism MLE'. "
                    "The actual MLE on that identical subset is 850 [794,906] -- same as the "

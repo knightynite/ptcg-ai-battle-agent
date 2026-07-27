@@ -479,17 +479,23 @@ belong in the answer:
    the concept (Cynthia 96.5%, 53/55 deck-outs) is *their* result on this list, and the
    corresponding lift did not transfer to our gauntlet (+2.7pp, not the +28pp the diff
    suggested).
-3. **A shipped flag contradicts its own gate, and we found it writing this appendix.** The
-   v7 bakeoff **dropped B3 (the Kangaskhan bench cap / spares-stay-in-hand rule) from the
-   ship set**: head-to-head, v7-without-B3 beat v7-all-on on *both* weightings (META 77.53
-   vs 75.25; BAND 61.26 vs 59.92) with a consistent Lucario bleed (−7.3pp pooled over
-   n=900). Yet `PTCG_B3=1` in **both** fielded build scripts
+3. **A shipped flag was dropped by one gate and restored by a better one, and its final
+   marginal value is still unmeasured.** The v7 bakeoff **dropped B3 (the Kangaskhan bench
+   cap / spares-stay-in-hand rule) from the ship set**: head-to-head, v7-without-B3 beat
+   v7-all-on on *both* weightings (META 77.53 vs 75.25; BAND 61.26 vs 59.92) with an
+   apparent Lucario bleed (−7.3pp pooled over n=900). That reading was **pre-CRN, and the
+   2026-07-13 paired re-audit refuted it** — the Lucario bleed did not reproduce (kiyotah
+   +0.00, b=2 c=2), B3 read net +0.17pp and +3.67pp on the grimm row (p=0.0127 solo,
+   p=0.019 in combo), and B3 shipped in v10 on that basis (B.1; the build scripts carry the
+   comment "B3 re-qualified by the 2026-07-13 CRN re-audit"). So the ship IS gate-backed and
+   the earlier verdict was one of the false convictions CRN was built to catch. What remains
+   genuinely open is narrower: `PTCG_B3=1` in **both** fielded build scripts
    (`submit/build_submission_v11.sh:53`, `submit/build_submission_v12.sh:53`), it is listed
    as on in the frozen configuration ledger (B.4.1), and the 2026-07-26 CRN ablation
    deliberately grouped only **B1/B2/B4/B5/B6** — so **B3's marginal value in the
-   configuration we actually fielded has never been measured on the CRN instrument**. We
-   record this as an unresolved discrepancy rather than quietly correcting the narrative in
-   either direction: the pre-CRN head-to-head that dropped it (N=150×2, one batch) is
+   configuration we actually fielded has never been re-measured on the CRN instrument**. We
+   record the residual openly rather than quietly rounding it off in either direction: the
+   pre-CRN head-to-head that dropped it (N=150×2, one batch) is
    exactly the class of reading the CRN work has repeatedly overturned in both directions
    (A.3 #1, B.1), so "the shipped build is wrong" is no better supported than "the drop was
    noise." What is certain is that a key-card discipline rule for the deck's 3-prize body is
@@ -588,7 +594,7 @@ deck-only pre-registration.
   in the provenance matrix (B.4.4), and nothing in this appendix should be read as a claim
   of deck-building authorship. The claim is narrower and is the one the evidence supports:
   **we chose this list against our own prior conclusion, on our own measured pilot, we can
-  say what every card in it is for, and we have named the six slots we never tested.**
+  say what every card in it is for, and we have named the five slots we never tested.**
 
 **Artifacts.** `agent/deck_crustle.csv` (the shipped 60);
 `intel/deck_rebakeoff_2026-07-12.md` (the selection); `intel/budew_behavior_diff.md` (the
