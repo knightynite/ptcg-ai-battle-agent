@@ -36,7 +36,7 @@ re-saves every PNG.
 | **F4** | `F4_deck_roles_*` | The shipped deck by role — ONE Crustle list, two agent generations (v11+v12) on the ladder. | §5.4 |
 | **F5** | `F5_*` | Deck consistency for the CURRENT Crustle list (mirrors the Starmie-era method; `intel/deck_consistency_crustle_2026-07-21.md`). | §5.3 |
 | **F6** | `F6_unit_audit_*` | **CENTERPIECE.** Five aggregates that would have driven the wrong decision → re-keyed → decision changed; era-separated results strip with NO cross-era line. | §6 |
-| **F7** | `F7_rating_trajectory_*` | Committed team-score series 07-11→07-21 vs the bars, with the v11 MLE band [794,906] — the score is a draw wandering around true skill. Pre-settle preview. | §6.4 |
+| **F7** | `F7_rating_trajectory_*` | Committed team-score series (07-11 through the latest committed read) vs the bars, with the v11 MLE band [794,906] — the score is a draw wandering around true skill. Pre-settle preview. | §6.4 |
 | **F10** | `F10_behavior_diff_*` | The behavior diff applied twice: WinDecks (+21.4 local meta) and Budew (+5.8 meta / +0.61 band → gate MISSED, meta leg only). | §3.4 |
 | **F11** | `F11_rating_model_*` | Fitted rating backend (K=9.0, s=324); honest checkpoint record (v7 held, v10 below projection, v11 MLE 850) — conditions comparisons, certifies nothing. | §6.3 |
 | **F12** | `F12_crn_measurement_*` | The CRN fix: 6.0pp phantom → 0.0pp exact null; VRF 2.2–67× on the 2026-07-13 gates; the 2026-07-26 near-clone gates read 8–147× (B.4.2) and the body quotes the typical band, 16–44× — same statistic, different batches, reported here together so the three numbers reconcile. Four verdicts changed with McNemar p-values. Development-only. | §6.2 |

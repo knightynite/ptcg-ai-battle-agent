@@ -97,7 +97,7 @@ the Starmie hedge through submission-order attrition — an explicit limitation 
 **5.3 Consistency and roles.** The *current* list is Budew's, adopted unmodified; we re-measured it with the Starmie-era instrument (exact
 hypergeometric + seeded Monte-Carlo; deck_consistency attachments): mulligan **30.0%** — the deck *switch* cut the old
 45.9%, where the 11-Basic fix (22.2%) had measured −5.5pp and been rejected; wall online by turn 2 in
-66–70% of games; the 3-energy attacker never is — the wall buys that time. A manabase mechanism-vs-outcome A/B (§7) is the outcome-level check. Roles: Crustle wall (Mysterious Rock Inn
+66–70% of games; the 3-energy attacker never is — the wall buys that time. A manabase mechanism-vs-outcome A/B (A.7) is the outcome-level check. Roles: Crustle wall (Mysterious Rock Inn
 blanks ex-attack damage) + Mega Kangaskhan ex closer + Dwebble/Shaymin feedstock. **[Appendix D: deck concept,
 per-card utilization, rejected edits.] [F5.]**
 

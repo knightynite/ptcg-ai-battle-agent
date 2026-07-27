@@ -1,60 +1,60 @@
 {
-  "generated_utc": "2026-07-21T043848",
+  "generated_utc": "2026-07-27T015202",
   "_readme": "Single source of truth for every load-bearing number quoted in report/ and intel/. Every entry carries snapshot_utc + source_file + method/note. Re-derivable entries (rank/rating/bars) are recomputed by scripts/check_numbers.py --refresh from the newest intel/lb_history/*.csv; hand-curated entries (MLE, policy figures, forensics) are NOT recomputed by that script and must be updated manually if a newer canonical source appears.",
   "entries": {
     "our_rank": {
-      "value": 300,
+      "value": 416,
       "unit": "leaderboard rank",
-      "snapshot_utc": "2026:07:21T043848",
-      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-21T043848.csv",
+      "snapshot_utc": "2026:07:27T015202",
+      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-27T015202.csv",
       "method": "Rows sorted desc by Score; our row = TeamName containing 'najafi' (case-insensitive), per scripts/daily_monitor.sh team-identification convention.",
       "note": "Matches intel/lb_history/our_rating_history.csv last row (687,5082,847.5,2). Derivable; refreshed by check_numbers.py --refresh."
     },
     "our_rating": {
-      "value": 907.5,
+      "value": 880.0,
       "unit": "rating (Score column)",
-      "snapshot_utc": "2026:07:21T043848",
-      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-21T043848.csv",
+      "snapshot_utc": "2026:07:27T015202",
+      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-27T015202.csv",
       "method": "Score of our row, same identification as our_rank.",
       "note": "Same value as our_latest_snapshot_rating (kept as a separate entry below per deep_synthesis_2026-07-16.md anchor-ambiguity discussion, §2.2 of intel/endgame_policy_2026-07-16.md). Derivable."
     },
     "n_teams": {
-      "value": 5414,
+      "value": 5774,
       "unit": "count",
-      "snapshot_utc": "2026:07:21T043848",
-      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-21T043848.csv",
+      "snapshot_utc": "2026:07:27T015202",
+      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-27T015202.csv",
       "method": "len(rows) with non-empty Score.",
       "note": "Derivable; refreshed by check_numbers.py --refresh."
     },
     "bronze_bar": {
-      "value": 860.2,
+      "value": 847.7,
       "unit": "rating (Score at bronze rank)",
-      "snapshot_utc": "2026:07:21T043848",
-      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-21T043848.csv",
+      "snapshot_utc": "2026:07:27T015202",
+      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-27T015202.csv",
       "method": "rank = round(0.10 * n_teams); score at that rank in Score-desc-sorted list. n=5082 -> rank 508 -> 867.9.",
       "note": "Confirms intel/endgame_policy_2026-07-16.md §2.1 table (868.4->867.9 over the last two snapshots, -13.5pts/-2.8pts-per-day drift measured 07-11..07-16). Superseded/stale variant: bronze_reframe_2026-07-15.md quotes 868.4 at rank 507 (that snapshot, 5,072 teams) -- correct for its own date, now one snapshot stale. Derivable; refreshed by check_numbers.py --refresh."
     },
     "silver_bar": {
-      "value": 916.2,
+      "value": 915.5,
       "unit": "rating (Score at silver rank)",
-      "snapshot_utc": "2026:07:21T043848",
-      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-21T043848.csv",
+      "snapshot_utc": "2026:07:27T015202",
+      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-27T015202.csv",
       "method": "rank = round(0.05 * n_teams); score at that rank. n=5082 -> rank 254 -> 925.9.",
       "note": "Derivable; refreshed by check_numbers.py --refresh."
     },
     "top100_cutoff": {
-      "value": 985.7,
+      "value": 999.8,
       "unit": "rating (Score at rank 100)",
-      "snapshot_utc": "2026:07:21T043848",
-      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-21T043848.csv",
+      "snapshot_utc": "2026:07:27T015202",
+      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-27T015202.csv",
       "method": "Score at rank 100 in Score-desc-sorted list.",
       "note": "Superseded/stale variant: report/strategy_report_draft.md and intel/nightly_2026-07-15.md quote 986.1 at the 2026-07-15 19:52 snapshot -- correct for that date, drifted +1.0 by the next snapshot. Derivable; refreshed by check_numbers.py --refresh."
     },
     "majkel_rating": {
-      "value": 1217.8,
+      "value": 1214.5,
       "unit": "rating (#1 team)",
-      "snapshot_utc": "2026:07:21T043848",
-      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-21T043848.csv",
+      "snapshot_utc": "2026:07:27T015202",
+      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-27T015202.csv",
       "method": "Max Score in the snapshot; team = 'Majkel1337'.",
       "note": "Cross-referenced in intel/majkel_deepdive_2026-07-16.md (census/behavior analysis, no rating figure of its own quoted there). Derivable; refreshed by check_numbers.py --refresh."
     },
@@ -80,10 +80,10 @@
       "note": "This is the 'game-count anchor', distinct from the snapshot-time anchor (our_latest_snapshot_rating) and the MLE anchor (v11_mle_settle). All three are swept, not reconciled, in intel/endgame_policy_2026-07-16.md §2.2/§4 (base_settle in {838, 847.5, 858})."
     },
     "our_latest_snapshot_rating": {
-      "value": 907.5,
+      "value": 880.0,
       "unit": "rating",
-      "snapshot_utc": "2026:07:21T043848",
-      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-21T043848.csv",
+      "snapshot_utc": "2026:07:27T015202",
+      "source_file": "intel/lb_history/pokemon-tcg-ai-battle-publicleaderboard-2026-07-27T015202.csv",
       "method": "Last row of the committed snapshot history (rank 687, 5082 teams, score 847.5, 2 active subs).",
       "note": "Identical value to our_rating; kept as a distinct named entry because intel/endgame_policy_2026-07-16.md §2.2/§4 treats it as one of three competing anchor candidates (838 g100 / 847.5 latest-snapshot / 850 MLE) that the campaign has never reconciled to one number."
     },
